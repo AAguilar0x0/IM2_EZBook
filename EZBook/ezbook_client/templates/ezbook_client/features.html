@@ -1,0 +1,42 @@
+{% extends "ezbook_client/base.html" %} {% load static %} {% block content %}
+
+<section class="py-6">
+  <div class="container">
+    <div class="row flex-center">
+      <center>
+        <br />
+        <br />
+        <br />
+        <h1>Features</h1>
+      </center>
+      <div class="col-md-4 col-lg-3 mt-4 mt-lg-8 text-center text-md-start">
+        <div class="badge bg-soft-danger p-3 rounded-3">
+          <img class="w-100 h-100" src="{% static 'assets/img/icons/edit.svg' %}" alt="..." />
+        </div>
+        <h4 class="mt-5 mb-3 fw-bold">Instant Booking</h4>
+        <p class="fs-1 lh-sm">Book Anytime, Anywhere</p>
+      </div>
+      <div class="col-md-4 col-lg-3 mt-4 mt-lg-8 text-center text-md-start">
+        <div class="badge bg-soft-danger p-3 rounded-3">
+          <img class="w-100 h-100" src="{% static 'assets/img/icons/monitor.svg' %}" alt="..." />
+        </div>
+        <h4 class="mt-5 mb-3 fw-bold">Easy access</h4>
+        <p class="fs-1 lh-sm">
+          Can easily access different travel destinations<br class="d-none d-md-block d-lg-none" />
+        </p>
+      </div>
+      <div class="col-md-4 col-lg-3 mt-4 mt-lg-8 text-center text-md-start">
+        <div class="badge bg-soft-danger p-3 rounded-3">
+          <img class="w-100 h-100" src="{% static 'assets/img/icons/cloud.svg' %}" alt="..." />
+        </div>
+        <h4 class="mt-5 mb-3 fw-bold">Storing at the cloud</h4>
+        <p class="fs-1 lh-sm">
+          The application is using advanced Cloud Application
+          <br class="d-none d-md-block d-lg-none" />
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+</section>
+{% endblock content %}

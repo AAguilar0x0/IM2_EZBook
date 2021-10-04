@@ -1,0 +1,185 @@
+{% extends 'ezbook_admin/base.html' %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+
+    {% if form.errors %}
+    <script type="text/javascript">
+        $(() => {
+            $('#addModal').modal('show');
+        });
+    </script>
+    {% endif %}
+    {% if isSuccess %}
+    <div class="alert alert-success" role="alert">
+        User added successfully
+    </div>
+    {% endif %}
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Users Table
+            </h6>
+            <p data-placement="top" data-toggle="tooltip" title="Add">
+                <a href="" class="btn btn-success btn-xs" data-title="Add" data-toggle="modal" data-target="#addModal">
+                    <span class="fas fa-plus"></span>
+                </a>
+            </p>
+        </div>
+        <div id="result" class="alert" role="alert" display="hidden"></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="bootstrapdatatable" class="table table-bordered" width="100%">
+                    <thead>
+                        <th>User Pic</th>
+                        <th>Username</th>
+                        <th>Firstname</th>
+                        <th>Middlename</th>
+                        <th>Lastname</th>
+                        <th>Age</th>
+                        <th>Phone number</th>
+                        <th>Email</th>
+                        <th>Date Created</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td><img src=" {{ user.user_pic }}" alt="{{ user.user_pic }}" /></td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.middlename }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.age }}</td>
+                            <td>{{ user.phone_number }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.date_created }}</td>
+                            <td>
+                                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                    <a href="/edit/{{ user.id }}" class="btn btn-primary btn-xs" data-title="Edit"
+                                        data-toggle="modal" data-target="#edit">
+                                        <span class="fas fa-pen"></span>
+                                    </a>
+                                </p>
+                                <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                    <a href="/delete/{{ user.id }}" class="btn btn-danger btn-xs" data-title="Delete"
+                                        data-toggle="modal" data-target="#delete">
+                                        <span class="fas fa-trash-alt"></span>
+                                    </a>
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add User</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="addSubmit" class="needs-validation" action="{% url 'ezbook_admin:users' %}" method="post"
+                enctype="multipart/form-data" novalidate>
+                {% csrf_token%}
+                <!-- {{form|crispy}} -->
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <!-- <label for="validationCustom00" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="validationCustom00"
+                                name="{{form.firstname.name}}" required>
+                            <div class="invalid-feedback">
+                                Please provide a first name.
+                            </div> -->
+                            {{form.firstname|as_crispy_field}}
+                        </div>
+                        <div class="col-md-4">
+                            <!-- <label for="validationCustom01" class="form-label">Middle name</label>
+                            <input type="text" class="form-control" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                                Please provide a middle name.
+                            </div> -->
+                            {{form.middlename|as_crispy_field}}
+                        </div>
+                        <div class="col-md-4">
+                            <!-- <label for="validationCustom02" class="form-label">Last name</label>
+                            <input type="text" class="form-control" id="validationCustom02" required>
+                            <div class="invalid-feedback">
+                                Please provide a last name.
+                            </div> -->
+                            {{form.lastname|as_crispy_field}}
+                        </div>
+                        <div class="col-md-4">
+                            <!-- <label for="validationCustomUsername" class="form-label">Username</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                <input type="text" class="form-control" id="validationCustomUsername"
+                                    aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">
+                                    Please choose a username.
+                                </div>
+                            </div> -->
+                            {{form.username|as_crispy_field}}
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <label for="validationCustom03" class="form-label">Age</label>
+                            <input type="number" min="0" class="form-control" id="validationCustom03" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid age.
+                            </div> -->
+                            {{form.age|as_crispy_field}}
+                        </div>
+                        <div class="col-md-5">
+                            <!-- <label for="validationCustom04" class="form-label">Phone number</label>
+                            <input type="text" class="form-control" id="validationCustom04" required>
+                            <div class="invalid-feedback">
+                                Please provide a phone number.
+                            </div> -->
+                            {{form.phone_number|as_crispy_field}}
+                        </div>
+                        <div class="col-md-7">
+                            <!-- <label for="validationCustom05" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="validationCustom05" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid email.
+                            </div> -->
+                            {{form.email|as_crispy_field}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(() => {
+        $('#bootstrapdatatable').DataTable({
+            "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+            "iDisplayLength": 3,
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        }
+        );
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'ezbook_admin/base.html' %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">Travel Places</h1>
+
+  {% if form.errors %}
+  <script type="text/javascript">
+    $(() => {
+      $('#addModal').modal('show');
+    });
+  </script>
+  {% endif %}
+  {% if isSuccess %}
+  <div class="alert alert-success" role="alert">
+    Travel Place added successfully
+  </div>
+  {% endif %}
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">
+        Travel Places Table
+      </h6>
+      <p data-placement="top" data-toggle="tooltip" title="Add">
+        <a href="" class="btn btn-success btn-xs" data-title="Add" data-toggle="modal" data-target="#addModal">
+          <span class="fas fa-plus"></span>
+        </a>
+      </p>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="bootstrapdatatable" class="table table-bordered" width="100%">
+          <thead>
+            <th>Places</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            {% for travel_place in travel_places %}
+            <tr>
+              <td>{{ travel_place.places }}</td>
+              <td>
+                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                  <a href="/edit/{{ user.id }}" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                    data-target="#edit">
+                    <span class="fas fa-pen"></span>
+                  </a>
+                </p>
+                <p data-placement="top" data-toggle="tooltip" title="Delete">
+                  <a href="/delete/{{ user.id }}" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                    data-target="#delete">
+                    <span class="fas fa-trash-alt"></span>
+                  </a>
+                </p>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add Travel Place</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="addSubmit" class="needs-validation" action="{% url 'ezbook_admin:travelplaces' %}" method="post"
+        enctype="multipart/form-data" novalidate>
+        {% csrf_token%}
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <!-- <label for="validationCustom00" class="form-label">Travel place</label>
+              <input type="text" class="form-control" id="validationCustom00" required>
+              <div class="invalid-feedback">
+                Please provide a company name.
+              </div> -->
+              {{form.places|as_crispy_field}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(() => {
+    $('#bootstrapdatatable').DataTable({
+      "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+      "iDisplayLength": 3,
+      dom: 'Blfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
+    }
+    );
+  });
+</script>
+{% endblock %}

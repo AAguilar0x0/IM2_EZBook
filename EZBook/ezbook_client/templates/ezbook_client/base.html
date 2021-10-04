@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ===============================================-->
+  <!--    Document Title-->
+  <!-- ===============================================-->
+  <title>EZBook</title>
+
+  <!-- ===============================================-->
+  <!--    Favicons-->
+  <!-- ===============================================-->
+
+  <link rel="manifest" href="{% static 'assets/img/favicons/manifest.json'%}" />
+
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- ===============================================-->
+  <!--    Stylesheets-->
+  <!-- ===============================================-->
+  <link href="{% static 'assets/css/theme.css' %}" type="text/css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600;700&amp;family=Montserrat:wght@200;300&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600;700&amp;family=Montserrat:wght@200;300;400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- ===============================================-->
+  <!--    Main Content-->
+  <!-- ===============================================-->
+  <main class="main" id="top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white py-3 d-block"
+      data-navbar-on-scroll="data-navbar-on-scroll">
+      <div class="container">
+        <h1 style="color:blue">EZBook</h1>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto pt-2 pt-lg-0 font-base">
+            <li class="nav-item px-2">
+              <a class="nav-link fw-bold active" aria-current="page" href="{% url 'ezbook_client:home' %}">Home</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link fw-bold" href="{% url 'ezbook_client:features' %}">Features</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link fw-bold" href="{% url 'ezbook_client:about' %}">About us</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link fw-bold" href="{% url 'ezbook_client:contact' %}">Contact us</a>
+            </li>
+          </ul>
+          <form class="ps-lg-5">
+            <a href="{% url 'ezbook_client:signin' %}">
+              <button class="btn btn-link text-danger fw-bold order-1 order-lg-0" type="button">
+                Sign in</button></a>
+            <a class="btn hover-top btn-collab" href="{% url 'ezbook_client:register' %}">Register</a>
+          </form>
+        </div>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    {% include 'ezbook_client/footer.html' %}
+  </main>
+  <!-- ===============================================-->
+  <!--    End of Main Content-->
+  <!-- ===============================================-->
+
+  <!-- ===============================================-->
+  <!--    JavaScripts-->
+  <!-- ===============================================-->
+  <script src="{% static 'vendors/@popperjs/popper.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap/bootstrap.min.js' %}"></script>
+  <script src="{% static 'vendors/is/is.min.js' %}"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+  <script src="{% static 'vendors/fontawesome/all.min.js' %}"></script>
+  <script src="{% static 'assets/js/theme.js' %}"></script>
+</body>
+
+</html>
