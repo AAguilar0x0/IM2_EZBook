@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load json_str %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <!-- Page Heading -->
@@ -14,9 +15,9 @@
     });
   </script>
   {% endif %}
-  {% if isSuccess %}
+  {% if successRemarks %}
   <div class="alert alert-success" role="alert">
-    Travel Place added successfully
+    {{successRemarks}}
   </div>
   {% endif %}
 
@@ -43,16 +44,16 @@
             {% for travel_place in travel_places %}
             <tr>
               <td>{{ travel_place.places }}</td>
-              <td>
+              <td class="d-flex" style="gap: 5px">
                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                  <a href="/edit/{{ user.id }}" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                    data-target="#edit">
+                  <a class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editModal"
+                    onclick="onEditClick(this)" data-user='{{travel_place|json_str}}'>
                     <span class="fas fa-pen"></span>
                   </a>
                 </p>
                 <p data-placement="top" data-toggle="tooltip" title="Delete">
-                  <a href="/delete/{{ user.id }}" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                    data-target="#delete">
+                  <a class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#deleteModal"
+                    onclick='onDeleteClick(this)' data-user='{{travel_place|json_str}}'>
                     <span class="fas fa-trash-alt"></span>
                   </a>
                 </p>
@@ -91,7 +92,60 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="submit">Submit</button>
+          <button class="btn btn-primary" type="submit" name="method" value="insert">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="editSubmit" class="needs-validation" action="{% url 'ezbook_admin:travelplaces' %}" method="post"
+        enctype="multipart/form-data" novalidate>
+        {% csrf_token%}
+        <div class="modal-body">
+          <div class="row g-3">
+            <input type="hidden" id="pk" name="pk" />
+            <div class="col-md-12">
+              {{form.places|as_crispy_field}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit" name="method" value="update">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  aria-hidden="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete User</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="deleteSubmit" action="{% url 'ezbook_admin:travelplaces' %}" method="post" enctype="multipart/form-data"
+        novalidate>
+        {% csrf_token%}
+        <input type="hidden" id="pk" name="pk" />
+        <div class="modal-body" id="body">
+          Are you sure you want to delete this user?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit" name="method" value="delete">Confirm</button>
         </div>
       </form>
     </div>
@@ -99,6 +153,18 @@
 </div>
 
 <script type="text/javascript">
+  function onEditClick(element) {
+    const place = JSON.parse($(element).attr('data-user'))[0]
+    if (!place) return;
+    $('#editModal #pk').val(place.pk);
+    $('#editModal #id_places').val(place.fields.places);
+  }
+  function onDeleteClick(element) {
+    const place = JSON.parse($(element).attr('data-user'))[0]
+    if (!place) return;
+    $('#deleteModal #pk').val(place.pk);
+    $('#deleteModal #body').html(`Are you sure you want to delete ${place.fields.places}?`);
+  }
   $(() => {
     $('#bootstrapdatatable').DataTable({
       "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
