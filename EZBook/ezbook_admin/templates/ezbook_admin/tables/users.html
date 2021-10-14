@@ -39,13 +39,13 @@
                 <table id="bootstrapdatatable" class="table table-bordered" width="100%">
                     <thead>
                         <th>User Pic</th>
-                        <th>Username</th>
+                        <!-- <th>Username</th> -->
                         <th>Firstname</th>
                         <th>Middlename</th>
                         <th>Lastname</th>
                         <th>Age</th>
-                        <th>Phone number</th>
-                        <th>Email</th>
+                        <!-- <th>Phone number</th>
+                        <th>Email</th> -->
                         <th>Date Created</th>
                         <th>Actions</th>
                     </thead>
@@ -53,13 +53,13 @@
                         {% for user in users %}
                         <tr>
                             <td><img src=" {{ user.user_pic }}" alt="{{ user.user_pic }}" /></td>
-                            <td>{{ user.username }}</td>
+                            <!-- <td>{{ user.username }}</td> -->
                             <td>{{ user.firstname }}</td>
                             <td>{{ user.middlename }}</td>
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.age }}</td>
-                            <td>{{ user.phone_number }}</td>
-                            <td>{{ user.email }}</td>
+                            <!-- <td>{{ user.phone_number }}</td>
+                            <td>{{ user.email }}</td> -->
                             <td>{{ user.date_created }}</td>
                             <td class="d-flex" style="gap: 5px">
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
